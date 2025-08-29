@@ -38,7 +38,7 @@ I scanned localhost using different modes to identify:
 
 ## 📬 Let’s Connect
 - GitHub: [RickDSage](https://github.com/RickDSage)  
-- LinkedIn: *(add link when ready)*  
+- LinkedIn: *(https://www.linkedin.com/in/mrdnd?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)*  
 - Motto: *“If attackers can see it, so can I — and I’ll shut it down first.”*
 
 Portfolio of defensive security labs and write-ups.
