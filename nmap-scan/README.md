@@ -14,8 +14,6 @@ nmap --script vuln localhost
 
 ---
 
-## 🔹 Results
-
 ### Port Scan
 ![Nmap Scan Ports](nmap-scan.png)
 
@@ -27,6 +25,7 @@ nmap --script vuln localhost
 
 ### Vulnerability Script Scan
 ![Nmap Vuln Scan](nmap-vuln.png)
+
 
 **Summary of detected open ports:**
 - **135/tcp open** – MSRPC (Microsoft RPC service)  
@@ -68,15 +67,5 @@ nmap --script vuln localhost
 ## 🔹 Takeaway
 This lab shows how different Nmap modes — from a basic service version scan (`-sV`) to an aggressive **Intense Scan (`-T4 -A -v`)** and vulnerability scripts — can reveal a **lot** about a target system.  
 As a defender, regularly scanning your own environment is crucial to **see what attackers see** and close those doors before they are exploited.
-### Port Scan
-![Nmap Scan Ports](nmap-scan.png)
 
-### Intense Scan Output (-T4 -A -v)
-![Nmap Detailed Scan](nmap-detailed.png)
-
-### Topology View
-![Zenmap Topology](nmap-topology.png)
-
-### Vulnerability Script Scan
-![Nmap Vuln Scan](nmap-vuln.png)
 
