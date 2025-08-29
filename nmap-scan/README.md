@@ -1,71 +1,63 @@
-# Nmap Scan Lab 🛡️
+# ⚔️ Nmap Lab – Derek’s Cybersecurity Portfolio
 
-## 🔹 Objective
-Run Nmap scans against localhost using different modes to identify open ports, services, and potential vulnerabilities.  
-The goal is to understand what attackers can see, and how defenders can use this information to strengthen security.
-
-## 🔹 Commands Used
-nmap -sV localhost
-nmap -T4 -A -v localhost
-nmap --script vuln localhost
-- `-sV` → Detect service versions  
-- `-T4 -A -v` → Intense scan (faster timing, OS detection, script scanning, traceroute, verbose output)  
-- `--script vuln` → Run vulnerability detection scripts  
+## 🎯 Goal
+I wanted to see what an attacker could find if they scanned my machine.  
+Nmap is basically the hacker’s torch in the dark — it shows all the doors and windows into a system.  
+My job here is to light up those doors, then figure out how to lock them before anyone else walks through.
 
 ---
 
-### Port Scan
+## ⚙️ Commands I Ran
+- `nmap -sV localhost` → Quick scan to see service versions.  
+- `nmap -T4 -A -v localhost` → Intense scan (OS detection, scripts, traceroute, the full works).  
+- `nmap --script vuln localhost` → Tried to pull known vulnerability info (like WannaCry’s SMB exploit).  
+
+---
+
+## 📊 Results
+
+### 🔹 Port Discovery (first sweep)
+First, Nmap just showed me what was open. Think of this as **spotting the doors** before checking what’s behind them.  
+
 ![Nmap Scan Ports](nmap-scan.png)
 
-### Intense Scan Output (-T4 -A -v)
+---
+
+### 🔹 Full Analysis (Intense Scan `-T4 -A -v`)
+This stage is where Nmap flexes. It told me the OS, uptime, and even checked SMB (which is how WannaCry spread back in 2017).  
+Basically: **not just the doors, but who’s standing inside them and how strong they look.**  
+
 ![Nmap Detailed Scan](nmap-detailed.png)
 
-### Topology View
+---
+
+### 🔹 Network Topology (Zenmap)
+Zenmap gave me a little map of my host. Not flashy here since it’s localhost, but imagine this on a big network — it’s how attackers visualise your infrastructure.  
+
 ![Zenmap Topology](nmap-topology.png)
 
-### Vulnerability Script Scan
+---
+
+### 🔹 Vulnerability Script Scan
+Ran the vuln scripts. Some failed, but the point is: **if SMB is open, attackers will always try WannaCry or EternalBlue-style exploits first.**  
+
 ![Nmap Vuln Scan](nmap-vuln.png)
 
+---
 
-**Summary of detected open ports:**
-- **135/tcp open** – MSRPC (Microsoft RPC service)  
-- **445/tcp open** – Microsoft-DS (SMB, Server Message Block)  
-- **1434/tcp open** – MS-SQL Monitor  
-- **1947/tcp open** – Sentinel SRM  
-- **3000/tcp open** – PPP  
-- **5357/tcp open** – WSDAPI  
-- **5432/tcp open** – PostgreSQL database service  
-- **7000/tcp open** – AFS3 File Server  
-- **8082/tcp open** – BlackIce Alerts  
-- **12345/tcp open** – NetBus (historically used as a backdoor Trojan)
-
-**Host script results (from vuln scan):**
-- `smb-vuln-ms10-061`: ERROR (could not negotiate connection)  
-- `smb-vuln-ms10-054`: false (not vulnerable)  
-- `samba-vuln-cve-2012-1182`: connection failed  
+## 📝 My Take
+- **Open Ports = Attack Surface.** I had SMB (445), SQL, and even an old NetBus port (12345) — that one’s historically linked to backdoors. 🚩  
+- **Full Analysis = Recon.** With OS fingerprints and service versions, an attacker could Google CVEs in minutes.  
+- **Vuln Scan = Confirmation.** Even if it doesn’t show every exploit, it proves attackers are always probing for low-hanging fruit.  
 
 ---
 
-## 🔹 Analysis
-- Several **critical services** (e.g., SMB on port 445, PostgreSQL on 5432) are running and exposed.  
-- Attackers could attempt **brute-force attacks** on PostgreSQL or exploit **SMB vulnerabilities** (e.g., WannaCry ransomware targeted SMB).  
-- The presence of port **12345 (NetBus)** is especially concerning — it is historically linked to **remote access Trojans/backdoors**, which could allow attackers full control of the system.  
-- The **Intense Scan (-T4 -A -v)** provided extra information such as **OS details, TCP sequence prediction, and uptime**, which attackers could use to fingerprint the system.  
-- Failed script checks show that while some specific SMB exploits didn’t trigger, the services remain exposed and require attention.  
+## 🛡️ What I’d Do in Real Life
+- Shut down unneeded services (NetBus has zero business being open).  
+- Firewall the essentials, don’t let everything through.  
+- Patch SMB and keep PostgreSQL locked to trusted users only.  
+- Drop in an IDS/IPS to catch brute force attempts before they get anywhere.  
 
 ---
 
-## 🔹 Mitigation
-- **Firewalling** → Restrict access to only necessary ports/services.  
-- **Disable Unused Services** → Ports like 12345 (NetBus) should not be running at all.  
-- **Patch Management** → Keep SMB, PostgreSQL, and other services fully updated to avoid known CVEs.  
-- **Intrusion Detection (IDS/IPS)** → Monitor repeated login attempts or suspicious scanning activity.  
-- **Principle of Least Privilege** → Limit access to services only to authorised users.  
-
----
-
-## 🔹 Takeaway
-This lab shows how different Nmap modes — from a basic service version scan (`-sV`) to an aggressive **Intense Scan (`-T4 -A -v`)** and vulnerability scripts — can reveal a **lot** about a target system.  
-As a defender, regularly scanning your own environment is crucial to **see what attackers see** and close those doors before they are exploited.
-
-
+✅ Bottom line: Nmap is like putting on x-ray goggles. You don’t just see the outside of a system — you see its bones. And if I can see this much, so can an attacker. My job is to make sure when they try, they find nothing but locked doors.  
